@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> CRUD RANDY</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <div class="container">
+        <br>
+        <div class="jumbotron">
+            <h1>
+                <%= crud %>
+            </h1>
+
+            <form action="/add" method="POST">
+                <legend>Ajouter votre identité</legend>
+                <div class="form-group">
+                    <input type="text" placeholder="Nom" id="name" class="form-control" name="name">
+                </div>
+                <div class="form-group">
+                    <input type="text" placeholder="Prénom" id="firstname" class="form-control" name="firstname">
+                </div>
+                <div class="form-group">
+                    <input type="text" placeholder="Adresse" id="address" class="form-control" name="address">
+                </div>
+                <div class="form-group">
+                    <input type="tel" placeholder="tel" id="tel" class="form-control" name="tel">
+                </div>
+
+                <button class="btn btn-primary">Ajouter</button>
+            </form>
+        </div>
+
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>adresse</th>
+                    <th>Tel</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for(var i=0; i < user.length; i++){ %>
+                    <tr>
+                        <td>
+                            <%= i+1 %>
+                        </td>
+                        <td><strong>
+                                <%= user[i].name %>
+                            </strong></td>
+                        <td><strong>
+                                <%= user[i].firstname %>
+                            </strong></td>
+                        <td><strong>
+                                <%= user[i].address %>
+                            </strong></td>
+                        <td><strong>
+                                <%= user[i].tel %>
+                            </strong></td>
+
+                        <td>
+                            <a class="<%= user[i].status ? 'btn btn-success': 'btn btn-dark' %>"
+                                href="/user/<%= user[i]._id %>">Utilisateur</a>
+                            <a id="delete" class="btn btn-danger" href="/delete/<%= user[i]._id %>">Supprimer</a>
+                        </td>
+                    </tr>
+                    <% } %>
+
+            </tbody>
+        </table>
+    </div>
+
+</body>
+<script>
+
+    document.getElementById('name').focus();
+    document.getElementById('delete').addEventListener('click', (e) => {
+        let response = confirm('voulez vous vraiment le supprimer ?');
+        if (!response) {
+            e.preventDefault();
+        }
+    });
+</script>
+
+</html>
