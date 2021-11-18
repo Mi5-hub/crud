@@ -70,7 +70,7 @@ router.get('/getInfo', async (req, res) => {
    router.post('/search',(req,res)=>{
     user.findAll({
         where: {
-          name: req.body.name,
+          name: req.body.search,
         }
       },(users)=>{
           console.log('search user',users);
