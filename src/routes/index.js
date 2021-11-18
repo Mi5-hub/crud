@@ -46,7 +46,35 @@ router.get('/delete/:id', (req, res) => {
         res.redirect('/');
     });
 });
-router.get('/search', (req,res)=>{
-    let name = req.body.name
-})
+router.get('/getInfo', async (req, res) => {
+    const { id } = req.query;
+    if (!id) {
+     global.logger.error('id can\'t find')
+     res.json({
+      errno: 1
+     });
+     return;
+    }
+    const userResult = await User.find({name: id}).exec();
+    console.log(userResult);
+    res.json({
+     errno: 0,
+     data: {
+      id: userResult[0]._id,
+      name: userResult[0].name,
+      src: userResult[0].src
+     }
+    })
+   });
+
+   router.post('/search',(req,res)=>{
+    user.findAll({
+        where: {
+          name: req.body.name,
+        }
+      },(users)=>{
+          console.log('search user',users);
+          res.render('index',{users})
+      })
+   })
 module.exports = router;
